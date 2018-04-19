@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $(".btn").click(function () {
+
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var sex = $("#sex").val();
+            var age = $("#age").val();
+            var department = $("#department").val();
+            if (id == "" || id == null)
+            {
+                alert("请输入病人ID");
+            }
+
+            $.post("../../UserAjax/Add",
+                {
+                    id:id,
+                    name: name,
+                    sex: sex,
+                    age: age,
+                    department:department
+               },
+                function (data, status) {
+                    if (data == "1")
+                    {
+                        alert("添加成功");
+                        if (window.event)
+                            window.event.returnValue = false;
+                        else
+                            event.preventDefault();
+                    }
+                    else {
+                        alert("添加失败");
+                        if (window.event)
+                            window.event.returnValue = false;
+                        else
+                            event.preventDefault();
+                    }
+                }
+           );
+        });
+    });
+    </script>
+</head>
+<body>
+    <h1>添加病人</h1>
+    <form >
+        <br /><br />
+        <br /><br />
+        ID：<input type="number" id="id" name="id" />
+        <br /><br />
+        姓名：<input type="text" id="name" name="name" />
+        <br /><br />
+        性别：<input type="text" id="sex" name="sex" />
+        <br /><br />
+        年龄：<input type="text" id="age" name="age" />
+        <br /><br />
+        部门：<input type="text" id="department" name="department" />
+        <br /><br />
+        <input class="btn" style="font-weight:100 " type="submit" value="保存" id="submit" /><br />
+
+    </form>
+</body>
+</html>

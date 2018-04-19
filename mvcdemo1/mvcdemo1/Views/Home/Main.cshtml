@@ -1,0 +1,102 @@
+﻿@using mvcdemo1.Models
+@{
+    ViewBag.Title = "Main";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>首页</title>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+        $(".btn").click(function () {
+
+            var name = $("#name").val();
+            if (name == "" || name == null)
+            {
+                window.location.href = "../../Home/Main/?id=" + @ViewData["id"] + "&password=" + @ViewData["password"] + "";
+
+                alert("请输入要查找的病人姓名");
+                if (window.event)
+                    window.event.returnValue = false;
+                else
+                    event.preventDefault();
+            }
+            else {
+                $.post("../../UserAjax/Search",
+              {
+                  name: name
+              },
+               function (data, status) {
+                   if (data == "1") {
+                       window.location.href = "../../Home/Search/?name=" + name + "";
+                       if (window.event)
+                           window.event.returnValue = false;
+                       else
+                           event.preventDefault();
+                   }
+                   else {
+                       // alert("没有符合条件的病人！");
+                       window.location.href = "../../Home/Main/?id=" + @ViewData["id"] + "&password=" + @ViewData["password"] + "";
+                       alert("没有符合条件的病人！");
+                       if (window.event)
+                           window.event.returnValue = false;
+                       else
+                           event.preventDefault();
+                   }
+
+               }
+          );
+            }
+           
+
+        });
+    });
+    </script>
+</head>
+<body>
+    <h1>欢迎你,@ViewData["key"]</h1>
+
+    <form>
+        <h1>按姓名查找病人信息</h1>
+        病人姓名：<input type="text" id="name" name="name" />
+        <input class="btn" type="submit" value="查询" id="submit" /><br />
+    </form>
+
+    <p>
+        列表
+    </p>
+    @Html.ActionLink("添加病人", "Create", "Home")
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>科室</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in (List<PatientInfo>)ViewBag.msg)
+        {
+            <tr>
+                <td contentEditable="true">@item.id</td>
+                <td contentEditable="true">@item.name </td>
+                <td contentEditable="true">@item.sex </td>
+                <td contentEditable="true">@item.age </td>
+                <td contentEditable="true">@item.department </td>
+                <td>
+                    @Html.ActionLink("编辑", "Edit", "Home", new { id = item.id }, null) |
+                    @Html.ActionLink("删除", "Delete", "Home", new { id = item.id}, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+
+@using mvcdemo1.Models
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+  
+</head>
+<body>
+
+   
+    <p>
+        查询结果列表
+    </p>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>科室</th>
+            <th></th>
+        </tr>
+        @foreach (var item in (List<PatientInfo>)ViewBag.msg)
+        {
+            <tr>
+                <td contentEditable="true">@item.id</td>
+                <td contentEditable="true">@item.name </td>
+                <td contentEditable="true">@item.sex </td>
+                <td contentEditable="true">@item.age </td>
+                <td contentEditable="true">@item.department </td>
+                <td>
+                    @Html.ActionLink("编辑", "Edit", "Home", new { id = item.id }, null) |
+                    @Html.ActionLink("删除", "Delete", "UserAjax", new { id = item.id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</body>
+</html>
+
+

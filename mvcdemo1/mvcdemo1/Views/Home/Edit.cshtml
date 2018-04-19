@@ -1,0 +1,64 @@
+﻿@using mvcdemo1.Models
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $(".btn").click(function () {
+                var id = @ViewData["key"];
+                var name = $("#name").val();
+                var sex = $("#sex").val();
+                var age = $("#age").val();
+                var department = $("#department").val();
+                
+                $.post("../../UserAjax/Save",
+                    {
+                        id:id,
+                        name: name,
+                        sex: sex,
+                        age: age,
+                        department:department
+                    },
+                    function (data, status) {
+                        if (data == "1")
+                        {
+                            alert("修改成功");
+                        }
+                        else {
+                            alert("修改失败");
+                        }
+                    }
+               );
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>修改病人信息</h1>
+    <form >
+        <br /><br />
+        <br /><br />
+        <p style="font-size:40px"> ID:  @ViewData["key"] </p>
+        <br /><br />
+        <br /><br />
+        姓名：<input type="text" id="name" name="name" value="@ViewData["name"]" />
+        <br /><br />
+        性别：<input type="text" id="sex" name="sex" value="@ViewData["sex"]" />
+        <br /><br />
+        年龄：<input type="text" id="age" name="age" value="@ViewData["age"]"/>
+        <br /><br />
+        部门：<input type="text" id="department" name="department" value="@ViewData["department"]"/>
+        <br /><br />
+        <input class="btn"  type="submit" value="保存" id="submit" /><br />
+
+    </form>
+</body>
+</html>
